@@ -12,9 +12,11 @@ const userSchema = new Schema(
       maxlength: 25,
       // set: value => value.charAt(0).toUpperCase() + value.substring(1)
     },
+
     profileImg: {
       type: String
     },
+
     email: {
       type: String,
       trim: true,
@@ -26,31 +28,27 @@ const userSchema = new Schema(
       // message: 'Only gmail clients'
       // }
     },
+
     role: {
       type: String,
       enum: ['ADMIN', 'PLANNER', 'USER'],
       default: 'USER'
     },
+
     password: {
       type: String,
       required: true
     },
 
-    // events: [{
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Event'
-    // }],
-
-    // artist: [{
-    //   type: Schema.Types.ObjectId,
-    //     ref: 'Artist' 
-    // }],
+    favoriteArtists: [{
+            type: String
+        }],
 
   },
   {
     timestamps: true
   }
-);
+)
 
 const User = model("User", userSchema);
 
