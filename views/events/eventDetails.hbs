@@ -1,7 +1,7 @@
 <div class="container mt-5">
 
     <div>
-        <h1>Event Details</h1>
+        <h1> {{name}} </h1>
     </div>
 
     <hr>
@@ -13,8 +13,8 @@
         </div>
 
         <div class="col-md-6 col-gd-6">
-            <h2>{{name}}</h2>
-            <p> {{description}} </p>
+            <p><strong>DESCRIPTION: </strong> {{description}} </p>
+            <p><strong>ASSISTANTS NUMBER: </strong> {{assistants.length}} </p>
 
             {{!-- <p>Followes: {{followers.total}}</p>
             <p>Genero: {{genres}}</p> --}}
@@ -35,6 +35,12 @@
     <div class="container mt-5">
         <form action="/events/{{id}}/delete" method="POST">
             <button class="btn btn-danger"> Delete event </button>
+        </form>
+    </div>
+
+    <div class="container mt-5">
+        <form action="/events/{{id}}/assist" method="POST">
+            <button class="btn btn-danger"> Assist </button>
         </form>
     </div>
 

@@ -1,18 +1,22 @@
 <div class="container mt-5">
 
-    <h1>Hola, {{username}} </h1>
+    <h1>Hola, {{user.username}} </h1>
 
     <hr>
     <div class="container">
         <div class="row">
             <div class="col">
-                <img src="{{profileImg}}" alt="{{name}}">
+                <img src="{{user.profileImg}}" alt="{{user.name}}">
             </div>
 
             <div class="col">
-                <p><strong> EMAIL: </strong> {{email}} </p>
-
+                <p><strong> EMAIL: </strong> {{user.email}} </p>
             </div>
+
+            <div class="col">
+                <p><strong> EVENTS ATTENDED: </strong> {{eventList.length}} </p>
+            </div>
+
         </div>
     </div>
 
