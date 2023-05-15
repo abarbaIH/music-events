@@ -44,6 +44,7 @@ router.get("/events/:id", (req, res, next) => {
     const {id} = req.params
 
     Event.findById(id)
+    .populate('assistants')
     .then( event => res.render('events/eventDetails', event))
     .catch(err => next(err))
 });
@@ -74,7 +75,7 @@ router.get("/events/:id", (req, res, next) => {
 
 // --------------------------------------------------------------------------------------------------------
 
-router.get("/events/:id/delete", (req, res, next) => {
+router.post("/events/:id/delete", (req, res, next) => {
 
     const {id} = req.params
 
@@ -83,6 +84,27 @@ router.get("/events/:id/delete", (req, res, next) => {
     .catch(err => next(err))
 
 });
+
+
+// --------------------------------------------------------------------------------------------------------
+
+
+router.post("/events/:id/assist", (req, res, next) => {
+
+    const {id} = req.params
+
+    const {_id} = req.session.currentUser
+
+    Event.findById(id)
+    .then(event => {
+        event.assistants.push(_id)
+        Event.findByIdAndUpdate(id, {assistants: event.assistants})
+        .then( () => res.redirect('/events'))        
+    }) 
+    .catch(err => next(err))
+
+});
+
 
 
 module.exports = router;
