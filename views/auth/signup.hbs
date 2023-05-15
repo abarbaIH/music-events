@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Registro</h1>
+            <hr>
+            <form action="/signup" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="user" class="form-label">Nombre usuario</label>
+                    <input type="text" class="form-control" id="user" name="username">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="plainPassword">
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Imagen de Perfil</label>
+                    <input type="file" class="form-control" id="profileImg" name="profileImg">
+                </div>
+
+                {{#if errMessage}}
+                <div id="error">{{errMessage}}</div>
+                {{/if}}
+
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-dark">Sign-up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
