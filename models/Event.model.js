@@ -52,12 +52,15 @@ const eventSchema = new Schema(
         },
 
         artists: [{
-            type: String
+            type: String,
+            defeult: []
         }],
 
         assistants: [{
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            defeult: []
+
         }],
     },
 

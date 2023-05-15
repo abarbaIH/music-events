@@ -15,12 +15,17 @@ router.get("/signup", isNotLogged, (req, res, next) => {
 
 // Signup form (handling)
 router.post("/signup", isNotLogged, uploaderMiddleware.single('profileImg'), (req, res, next) => {
+
     const { username, email, plainPassword } = req.body
+
     if (username.length === 0 || plainPassword.length === 0 || email.length === 0) {
         res.render('auth/signup', { errMessage: '***fields are required***' })
         return
     }
+
+
     const { path: profileImg } = req.file
+
     bcrypt
         .genSalt(saltRounds)
         .then(salt => bcrypt.hash(plainPassword, salt))

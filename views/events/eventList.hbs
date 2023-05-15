@@ -1,0 +1,28 @@
+<div class="container">
+
+    <h1> EVENTS: </h1>
+
+    <hr>
+
+    <div class="container">
+
+        <div class="row d-flex justify-content-around">
+
+            {{#each eventList}}
+            <div class="col-md-4 p-4 mb-2">
+
+                <article class="card p-3 mb-3">
+                    <img class="artist-img" src="{{images.[0].url}}" alt="{{name}}">
+                    <p><strong>Name:</strong> {{name}}</p>
+                    <a href="/events/{{id}}"> View Details </a>
+                    {{!-- <p><strong>Description:</strong> {{description}}</p> --}}
+                </article>
+
+            </div>
+            {{/each}}
+
+        </div>
+
+    </div>
+
+</div>
