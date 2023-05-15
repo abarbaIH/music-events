@@ -1,1 +1,42 @@
-{{ name }}
+<div class="container mt-5">
+
+    <div>
+        <h1>Event Details</h1>
+    </div>
+
+    <hr>
+
+    <div class="row container">
+
+        <div class="col-md-3 col-gd-3">
+            <img src="{{imagesUrl}}" alt="{{name}}">
+        </div>
+
+        <div class="col-md-6 col-gd-6">
+            <h2>{{name}}</h2>
+            <p> {{description}} </p>
+
+            {{!-- <p>Followes: {{followers.total}}</p>
+            <p>Genero: {{genres}}</p> --}}
+
+            {{!-- <div class="d-grid gap-2 col-3 mx-auto">
+                <a href="/events" class="btn btn-dark btn-sm">Return to Events</a>
+            </div> --}}
+        </div>
+
+    </div>
+
+    <div class="container mt-5">
+        <a href="/events" class="btn btn-dark btn-sm">Return to Events</a>
+    </div>
+    <div class="container mt-5">
+        <a href="/events/{{id}}/edit" class="btn btn-dark btn-sm">Edit Event</a>
+    </div>
+    <div class="container mt-5">
+        <form action="/events/{{id}}/delete" method="POST">
+            <button class="btn btn-danger"> Delete event </button>
+        </form>
+    </div>
+
+
+</div>

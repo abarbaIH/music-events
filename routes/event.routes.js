@@ -13,6 +13,9 @@ router.get("/events", (req, res, next) => {
     .catch(err => next(err))
 });
 
+
+// --------------------------------------------------------------------------------------------------------
+
 router.get("/events/create", (req, res, next) => {
     res.render("events/eventCreate");
 });
@@ -32,6 +35,10 @@ router.post("/events/create", uploaderMiddleware.single('eventImg'), (req, res, 
 
 });
 
+
+// --------------------------------------------------------------------------------------------------------
+
+
 router.get("/events/:id", (req, res, next) => {
 
     const {id} = req.params
@@ -40,5 +47,42 @@ router.get("/events/:id", (req, res, next) => {
     .then( event => res.render('events/eventDetails', event))
     .catch(err => next(err))
 });
+
+
+// --------------------------------------------------------------------------------------------------------
+
+
+// router.get("/events/:id/edit", (req, res, next) => {
+//     res.render("events/eventCreate");
+// });
+
+// router.post("/events/:id", uploaderMiddleware.single('eventImg'), (req, res, next) => {
+
+//     const { _id : planner } = req.session.currentUser
+//     // res.send(planner)
+
+//     const {name, description, startDate, endDate} = req.body
+
+//     const { path: eventImg } = req.file
+
+//     Event.create({name, eventImg, description, planner})
+//     .then(() => res.redirect('/events'))
+//     .catch(err => next(err))
+
+// });
+
+
+// --------------------------------------------------------------------------------------------------------
+
+router.get("/events/:id/delete", (req, res, next) => {
+
+    const {id} = req.params
+
+    Event.findByIdAndDelete(id)
+    .then( () => res.redirect('/events'))
+    .catch(err => next(err))
+
+});
+
 
 module.exports = router;
