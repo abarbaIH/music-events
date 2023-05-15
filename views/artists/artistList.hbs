@@ -1,23 +1,29 @@
-<div class="container">
-    <h1>ARTISTS:</h1>
-</div>
+<div class="container mt-5">
 
-<div class="container">
+    <div>
+        <h1>ARTISTS:</h1>
+    </div>
 
-    <div class="row d-flex justify-content-around">
+    <hr>
 
-        {{#each artistList}}
-        <div class="col-md-4 p-4 mb-2">
+    <div class="container">
 
-            <article class="card p-3 mb-3">
-                <img class="artist-img" src="{{images.[0].url}}" alt="{{name}}">
-                <p><strong>Name:</strong> {{name}}</p>
-                <a href="/artists/{{id}}"> View Details </a>
-                {{!-- <p><strong>Description:</strong> {{description}}</p> --}}
-            </article>
+        <div class="row d-flex justify-content-around">
+
+            {{#each artistList}}
+            <div class="col-md-4 p-4 mb-2">
+
+                <article class="card p-3 mb-3">
+                    <img class="artist-img" src="{{images.[0].url}}" alt="{{name}}">
+                    <p><strong>Name:</strong> {{name}}</p>
+                    <a href="/artists/{{id}}"> View Details </a>
+                    {{!-- <p><strong>Description:</strong> {{description}}</p> --}}
+                </article>
+
+            </div>
+            {{/each}}
 
         </div>
-        {{/each}}
 
     </div>
 

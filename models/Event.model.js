@@ -53,13 +53,13 @@ const eventSchema = new Schema(
 
         artists: [{
             type: String,
-            defeult: []
+            default: []
         }],
 
         assistants: [{
             type: Schema.Types.ObjectId,
             ref: 'User',
-            defeult: []
+            default: []
 
         }],
     },
