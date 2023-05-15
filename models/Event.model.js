@@ -24,19 +24,21 @@ const eventSchema = new Schema(
         },
 
         place: {
-            type: {
-                address: String,
-                zipcode: String,
-                city: String,
-                country: String,
+            address: String,
+            zipcode: String,
+            city: String,
+            country: String,
+            location: {
+                type: {
+                    type: String
+                },
+                coordinates: [Number]
             },
         },
 
         date: {
-            type: {
-                startDate: Date,
-                endDate: Date,
-            }
+            start: Date,
+            end: Date,
         },
 
         musicStyle: {
@@ -44,21 +46,13 @@ const eventSchema = new Schema(
             enum: ['electronic', 'pop', 'rock', 'flamenco']
         },
 
-        // location: {
-        //     type: {
-        //         type: String
-        //     },
-        //     coordinates: [Number]
-        // },
-
         planner: {
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
 
         artists: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Artist'
+            type: String
         }],
 
         assistants: [{
