@@ -17,12 +17,11 @@ router.get("/artists", (req, res, next) => {
         })
         .catch(err => console.log('The error while searching artists occurred: ', err));
 
-});
+})
+
 
 router.get("/artists/search", (req, res, next) => {
-
     res.render('artists/artistSearch')
-
 })
 
 router.get("/artist/search", (req, res, next) => {
@@ -37,6 +36,7 @@ router.get("/artist/search", (req, res, next) => {
         })
         .catch(err => console.log('The error while searching artists occurred: ', err));
 })
+
 
 router.get("/artists/:id", (req, res, next) => {
 

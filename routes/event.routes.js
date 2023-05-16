@@ -3,6 +3,8 @@ const router = express.Router();
 
 const Event = require('../models/Event.model')
 
+const spotifyApi = require('../services/spotify-service')
+
 const uploaderMiddleware = require('../middleware/uploader.middleware')
 
 
@@ -17,7 +19,7 @@ router.get("/events", (req, res, next) => {
 // --------------------------------------------------------------------------------------------------------
 
 router.get("/events/create", (req, res, next) => {
-    res.render("events/eventCreate");
+    res.render("events/eventCreate" , {spotifyApi});
 });
 
 router.post("/events/create", uploaderMiddleware.single('eventImg'), (req, res, next) => {
