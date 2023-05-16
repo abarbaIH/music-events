@@ -17,7 +17,6 @@ router.get("/profile", (req, res, next) => {
   })
   .catch(err => next(err))
 
-
   // User.findById(_id)
   // .then(user => res.render("users/profile" , user))
 
