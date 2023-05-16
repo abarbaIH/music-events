@@ -1,5 +1,12 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url(./../images/16.gif);
+  color: white
+}
+
+nav {
+  background-color: #e3f2fd;
+  color: white
 }
 
 a {
