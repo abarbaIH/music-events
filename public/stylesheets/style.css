@@ -10,6 +10,15 @@ img {
   width: 100%
 }
 
+.div-card-img {
+  height: 25em;
+  width: 100%;
+}
+
+.img-card-img {
+  object-fit: cover;
+}
+
 h1 {
   color: 15px;
 }

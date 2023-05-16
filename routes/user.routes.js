@@ -10,12 +10,30 @@ router.get("/profile", (req, res, next) => {
 
   const { _id } = req.session.currentUser
 
-  Event.find({ assistants: { $in: _id } })
-    .then(eventList => {
-      User.findById(_id)
-        .then(user => res.render("users/profile", { user, eventList }))
-    })
-    .catch(err => next(err))
+
+
+  // CON PROMISE ALL
+  Promise.all([
+      User.findById(_id) ,
+      Event.find({ assistants: { $in: _id } })
+  ])
+  .then(promisesResponse => {
+      const user = promisesResponse[0]
+      const eventList = promisesResponse[1]
+      res.render('users/profile', {user , eventList})
+  })
+  .catch(err => next(err))
+
+
+  // SIN PROMISE ALL
+
+  // Event.find({ assistants: { $in: _id } })
+  //   .then(eventList => {
+  //     User.findById(_id)
+  //       .then(user => res.render("users/profile", { user, eventList }))
+  //   })
+  //   .catch(err => next(err))
+
 });
 
 

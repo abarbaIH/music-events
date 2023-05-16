@@ -1,7 +1,7 @@
 <div class="container mt-5">
 
     <div>
-        <h1>ARTISTS:</h1>
+        <h1> TOP 20 ARTISTS IN SPAIN:</h1>
     </div>
 
     <hr>
@@ -11,12 +11,16 @@
         <div class="row d-flex justify-content-around">
 
             {{#each artistList}}
-            <div class="col-md-4 p-4 mb-2">
+            <div class="col-md-3 p-4 mb-2">
 
                 <article class="card p-3 mb-3">
-                    <img class="artist-img" src="{{images.[0].url}}" alt="{{name}}">
-                    <p><strong>Name:</strong> {{name}}</p>
-                    <a href="/artists/{{id}}"> View Details </a>
+                    <div class="div-card-img">
+                        <img class="img-card-img" src="{{images.[0].url}}" alt="{{name}}">
+                    </div>
+                    <div class="container">
+                        <p><strong>Name:</strong> {{name}}</p>
+                        <a href="/artists/{{id}}"> View Details </a>
+                    </div>
                     {{!-- <p><strong>Description:</strong> {{description}}</p> --}}
                 </article>
 

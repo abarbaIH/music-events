@@ -27,11 +27,14 @@ router.post("/events/create", uploaderMiddleware.single('eventImg'), (req, res, 
     const { _id : planner } = req.session.currentUser
     // res.send(planner)
 
-    const {name, description, startDate, endDate} = req.body
+    const {name, description, startDate, endDate, artist1, artist2} = req.body
 
     const { path: eventImg } = req.file
 
-    Event.create({name, eventImg, description, planner})
+    const artists = []
+    artists.push(artist1, artist2)
+
+    Event.create({name, eventImg, description, planner, artists})
     .then(() => res.redirect('/events'))
     .catch(err => next(err))
 
@@ -97,13 +100,24 @@ router.post("/events/:id/assist", (req, res, next) => {
 
     const {_id} = req.session.currentUser
 
-    Event.findById(id)
-    .then(event => {
-        event.assistants.push(_id)
-        Event.findByIdAndUpdate(id, {assistants: event.assistants})
-        .then( () => res.redirect('/events'))        
-    }) 
-    .catch(err => next(err))
+
+    // CON  PROMISE ALL
+    Promise.all([
+        Event.findById(id),
+        Event.findByIdAndUpdate(id, { $push: { assistants: _id } })
+    ])
+    .then( () => res.redirect(`/events/${id}`))
+    .catch(err => next(err));
+
+
+    // SIN PROMISE ALL
+    // Event.findById(id)
+    // .then(event => {
+    //     event.assistants.push(_id)
+    //     Event.findByIdAndUpdate(id, {assistants: event.assistants})
+    //     .then( () => res.redirect(`/events/${id}`))        
+    // }) 
+    // .catch(err => next(err))
 
 });
 
