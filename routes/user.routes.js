@@ -16,7 +16,7 @@ router.get("/profile", (req, res, next) => {
         .then(user => res.render("users/profile", { user, eventList }))
     })
     .catch(err => next(err))
-
 });
 
-module.exports = router;
+
+module.exports = router
