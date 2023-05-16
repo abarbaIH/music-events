@@ -5,7 +5,7 @@ const Event = require('../models/Event.model')
 
 const spotifyApi = require('../services/spotify-service')
 
-const uploaderMiddleware = require('../middleware/uploader.middleware')
+const uploaderMiddleware = require('../middlewares/uploader.middleware')
 
 
 

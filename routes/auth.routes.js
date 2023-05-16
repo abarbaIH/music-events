@@ -4,8 +4,8 @@ const bcrypt = require('bcryptjs')
 const saltRounds = 10
 
 const User = require('../models/User.model')
-const uploaderMiddleware = require('../middleware/uploader.middleware')
-const { isLogged, isNotLogged } = require('../middleware/route-guard')
+const uploaderMiddleware = require('../middlewares/uploader.middleware')
+const { isLogged, isNotLogged } = require('../middlewares/routeGuard.middleware')
 
 
 // Signup form (render)
@@ -23,7 +23,6 @@ router.post("/signup", isNotLogged, uploaderMiddleware.single('profileImg'), (re
         return
     }
 
-
     const { path: profileImg } = req.file
 
     bcrypt
@@ -33,6 +32,8 @@ router.post("/signup", isNotLogged, uploaderMiddleware.single('profileImg'), (re
         .then(() => res.redirect('/'))
         .catch(err => next(err))
 });
+
+// ----------------------------------------------------------------------------------------------------------
 
 router.get("/login", isNotLogged, (req, res, next) => {
     res.render("auth/login")
@@ -50,6 +51,7 @@ router.post('/login', isNotLogged, (req, res, next) => {
     User
         .findOne({ email })
         .then(user => {
+
             if (!user) {
                 res.render('auth/login', { errMessage: 'Email no registrado en la Base de Datos' })
                 return
@@ -60,18 +62,22 @@ router.post('/login', isNotLogged, (req, res, next) => {
                 return
             }
 
-            console.log(user)
             req.session.currentUser = user
-            console.log(req.session)
             res.redirect('/')
 
         })
         .catch(error => next(error))
 })
 
+
+// ----------------------------------------------------------------------------------------------------------
+
+
 // logout
 router.get('/logout', isLogged, (req, res, next) => {
     req.session.destroy(() => res.redirect('/'))
 })
+
+
 
 module.exports = router;

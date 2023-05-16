@@ -23,7 +23,18 @@ require("./config/session.config")(app);
 const capitalize = require("./utils/capitalize");
 const projectName = "your-favorite-music-events";
 
-app.locals.appTitle = `${capitalize(projectName)} created with IronLauncher`;
+app.locals.appTitle = `Music Events`;
+
+app.use((req, res, next) => {
+    app.locals.currentUser = req.session.currentUser
+    // console.log(req.session.currentUser)
+    next()
+})
+    
+// const loggedUser = require('./middlewares/loggedUser.middleware')
+// app.use(loggedUser)
+
+
 
 // 👇 Start handling routes here
 const indexRoutes = require("./routes/index.routes");
@@ -42,6 +53,7 @@ const userRoutes = require("./routes/user.routes");
 app.use("/", userRoutes);
 
 const apiRoutes = require("./routes/api.routes");
+const loggedUser = require("./middlewares/loggedUser.middleware");
 app.use("/", apiRoutes);
 
 

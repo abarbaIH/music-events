@@ -8,7 +8,7 @@ router.get('/api/getArtists/:value', (req, res, next) => {
 
     const { value } = req.params
 
-    spotifyApi.searchArtists(value, { limit: 5, market: 'ES' })
+    spotifyApi.searchArtists(value, { limit: 3, market: 'ES' })
         .then(data => {
             // res.send(data.body.artists.items)
             res.json(data.body.artists.items)
