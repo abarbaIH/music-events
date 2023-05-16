@@ -17,6 +17,13 @@
                 <p><strong> EVENTS ATTENDED: </strong> {{eventList.length}} </p>
             </div>
 
+            <div class="col">
+                <p><strong> EVENT LIST ATTENDED: </strong></p>
+                {{#each eventList}}
+                <p> {{name}} </p>
+                {{/each}}
+            </div>
+
         </div>
     </div>
 
