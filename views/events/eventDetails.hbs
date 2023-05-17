@@ -8,12 +8,19 @@
 
     <div class="row container">
 
-        <div class="col-md-3 col-gd-3">
+        <div class="col-md-5 col-gd-3">
             <img src="{{eventImg}}" alt="{{name}}">
         </div>
 
-        <div class="col-md-3 col-gd-6">
+        <div class="col-md-2">
             <p><strong>DESCRIPTION: </strong> {{description}} </p>
+            <p><strong> ARTIST LIST: </strong></p>
+            {{#each artists}}
+            <p> {{this}} </p>
+            {{/each}}
+        </div>
+
+        <div class="col-md-2 col-gd-6">
             <p><strong>ASSISTANTS NUMBER: </strong> {{assistants.length}} </p>
 
             {{!-- <p>Followes: {{followers.total}}</p>
@@ -24,16 +31,10 @@
             </div> --}}
         </div>
 
-        <div class="col">
+        <div class="col-md-3">
             <p><strong> ASSISTANTS LIST: </strong></p>
             {{#each assistants}}
             <p> {{username}} </p>
-            {{/each}}
-        </div>
-        <div class="col">
-            <p><strong> ARTIST LIST: </strong></p>
-            {{#each artists}}
-            <p> {{this}} </p>
             {{/each}}
         </div>
 

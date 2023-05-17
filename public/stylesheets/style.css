@@ -14,7 +14,7 @@ a {
 }
 
 img {
-  width: 100%
+  width: 80%
 }
 
 .div-card-img {
@@ -24,6 +24,7 @@ img {
 
 .img-card-img {
   object-fit: cover;
+  width: 100%
 }
 
 h1 {

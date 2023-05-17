@@ -7,18 +7,24 @@
     <hr>
 
     <div class="row container">
-        <div class="col-md-3 col-gd-3">
+        <div class="col-md-6 col-gd-3">
             <img src="{{images.[0].url}}" alt="{{name}}">
         </div>
 
-        <div class="col-md-6 col-gd-6">
-            <h2>{{name}}</h2>
-            <p>Followes: {{followers.total}}</p>
-            <p>Genero: {{genres}}</p>
-            <div class="d-grid gap-2 col-3 mx-auto"> <a href="/artists" class="btn btn-dark btn-sm">Return Artists
-                    List</a>
+        <div class="col-md-6 col-gd-3 mt-3">
+            <div class="container mt-2">
+                <h2>{{name}}</h2>
+            </div>
+
+            <div class="container mt-5">
+                <p><strong>Followers:</strong> {{followers.total}}</p>
+            </div>
+            <div class="d-grid gap-2 col-3 mx-auto mt-5">
+                <a href="/artists" class="btn btn-dark btn-sm">Return ArtistsList</a>
             </div>
         </div>
     </div>
+
+    <hr>
 
 </div>

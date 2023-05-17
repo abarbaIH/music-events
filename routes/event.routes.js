@@ -31,7 +31,7 @@ router.post("/events/create", uploaderMiddleware.single('eventImg'), (req, res, 
 
     const { path: eventImg } = req.file
 
-    const artists = []
+    const artists = [] 
     artists.push(artist1, artist2)
 
     Event.create({name, eventImg, description, planner, artists})

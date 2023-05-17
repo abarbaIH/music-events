@@ -11,7 +11,6 @@ router.get("/profile", (req, res, next) => {
   const { _id } = req.session.currentUser
 
 
-
   // CON PROMISE ALL
   Promise.all([
       User.findById(_id) ,
