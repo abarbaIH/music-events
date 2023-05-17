@@ -63,7 +63,7 @@ router.post('/login', isNotLogged, (req, res, next) => {
             }
 
             req.session.currentUser = user
-            res.redirect('/')
+            res.redirect('/profile')
 
         })
         .catch(error => next(error))

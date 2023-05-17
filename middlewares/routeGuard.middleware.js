@@ -31,4 +31,15 @@ const checkPlannerOrAdmin = (req, res, next) => {
     !req.session.currentUser ? next() : res.redirect('/')
 }
 
+
+
+const isOwnerOrAdmin = (req, res, next) => {
+
+    const {id} = req.params
+    const {_id} = req.session.currentUser
+
+    !req.session.currentUser ? next() : res.redirect('/')
+}
+
+
 module.exports = { isLogged, isNotLogged , checkRoles }

@@ -1,42 +1,36 @@
 <div class="container mt-5">
 
     <div>
-        <h1> {{name}} </h1>
+        <h1> {{event.name}} </h1>
     </div>
 
     <hr>
 
-    <div class="row container">
+    <div class="row">
 
         <div class="col-md-4 col-gd-3">
-            <img src="{{eventImg}}" alt="{{name}}">
+            <img src="{{event.eventImg}}" alt="{{event.name}}">
         </div>
 
         <div class="col-md-3">
-            <p><strong>DESCRIPTION: </strong> {{description}} </p>
-            <p><strong>START DATE: </strong> {{date.start}} </p>
-            <p><strong>END DATE: </strong> {{date.end}} </p>
+            <div class="mb-5">
+                <p><strong>DESCRIPTION: </strong></p>
+                <p> {{event.description}} </p>
+            </div>
+            <p><strong>START DATE: </strong> {{event.date.start}} </p>
+            <p><strong>END DATE: </strong> {{event.date.end}} </p>
         </div>
 
-
-        <div class="col-md-3 col-gd-6">
+        <div class="col-md-2 col-gd-6">
             <p><strong> ARTIST LIST: </strong></p>
-            {{#each artists}}
+            {{#each event.artists}}
             <a href="/api/getOneArtist/{{this}}" class="d-block mb-2"> {{this}} </a>
             {{/each}}
-            {{!-- <p><strong>ASSISTANTS NUMBER: </strong> {{assistants.length}} </p> --}}
-
-            {{!-- <p>Followes: {{followers.total}}</p>
-            <p>Genero: {{genres}}</p> --}}
-
-            {{!-- <div class="d-grid gap-2 col-3 mx-auto">
-                <a href="/events" class="btn btn-dark btn-sm">Return to Events</a>
-            </div> --}}
         </div>
 
-        <div class="col-md-2">
-            <p><strong> ASSISTANTS LIST ({{assistants.length}}): </strong></p>
-            {{#each assistants}}
+        <div class="col-md-3">
+            <p><strong> ASSISTANTS LIST ({{event.assistants.length}}): </strong></p>
+            {{#each event.assistants}}
             <a href="/users/{{id}}" class="d-block mb-2"> {{username}} </a>
             {{/each}}
         </div>
@@ -45,7 +39,38 @@
 
     <hr>
 
+    {{#if currentUser}}
     <div class="container mt-5">
+        <form action="/events/{{event.id}}/assist" method="POST">
+            <button class="btn btn-danger"> Assist </button>
+        </form>
+    </div>
+    {{/if}}
+
+    {{#if isOwner}}
+    <div class="container mt-5">
+        <a href="/events/{{event.id}}/edit" class="btn btn-dark btn-sm">Edit Event</a>
+    </div>
+    <div class="container mt-5">
+        <form action="/events/{{event.id}}/delete" method="POST">
+            <button class="btn btn-danger"> Delete event </button>
+        </form>
+    </div>
+    {{/if}}
+
+    {{#if isAdmin}}
+    <div class="container mt-5">
+        <a href="/events/{{event.id}}/edit" class="btn btn-dark btn-sm">Edit Event</a>
+    </div>
+    <div class="container mt-5">
+        <form action="/events/{{event.id}}/delete" method="POST">
+            <button class="btn btn-danger"> Delete event </button>
+        </form>
+    </div>
+    {{/if}}
+
+
+    {{!-- <div class="container mt-5">
         <a href="/events/{{id}}/edit" class="btn btn-dark btn-sm">Edit Event</a>
     </div>
     <div class="container mt-5">
@@ -58,7 +83,7 @@
         <form action="/events/{{id}}/assist" method="POST">
             <button class="btn btn-danger"> Assist </button>
         </form>
-    </div>
+    </div> --}}
 
 
 </div>

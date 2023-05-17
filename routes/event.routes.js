@@ -50,9 +50,18 @@ router.get("/events/:id", (req, res, next) => {
 
     const {id} = req.params
 
+    // const {_id} = req.session.currentUser
+
     Event.findById(id)
     .populate('assistants')
-    .then( event => res.render('events/eventDetails', event))
+    .populate('planner')
+    .then( event => {
+        const isOwner = req.session.currentUser._id === event.planner.id
+        // res.send(isOwner)
+        // console.log(req.session.currentUser._id , event.planner.id)
+        res.render('events/eventDetails' , {event , isOwner})
+
+    })
     .catch(err => next(err))
 });
 
@@ -60,9 +69,31 @@ router.get("/events/:id", (req, res, next) => {
 // --------------------------------------------------------------------------------------------------------
 
 
-// router.get("/events/:id/edit", (req, res, next) => {
-//     res.render("events/eventCreate");
-// });
+router.get("/events/:id/edit", isLogged, (req, res, next) => {
+
+    const {id} = req.params
+
+    // Event.findById(id)
+    // .then(event => res.render("events/eventEdit", event))
+    // .catch(err => next(err))
+
+
+    Event.findById(id)
+    .populate('assistants')
+    .populate('planner')
+    .then( event => {
+        if (req.session.currentUser._id === event.planner.id) {
+            res.render('events/eventEdit' , event )
+        } else {
+            res.redirect(`/events/${id}`)
+        }
+        // res.send(isOwner)
+        // console.log(req.session.currentUser._id , event.planner.id)
+
+    })
+    .catch(err => next(err))
+
+});
 
 // router.post("/events/:id", uploaderMiddleware.single('eventImg'), (req, res, next) => {
 
@@ -82,7 +113,7 @@ router.get("/events/:id", (req, res, next) => {
 
 // --------------------------------------------------------------------------------------------------------
 
-router.post("/events/:id/delete", (req, res, next) => {
+router.post("/events/:id/delete", checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
 
     const {id} = req.params
 
@@ -96,7 +127,7 @@ router.post("/events/:id/delete", (req, res, next) => {
 // --------------------------------------------------------------------------------------------------------
 
 
-router.post("/events/:id/assist", (req, res, next) => {
+router.post("/events/:id/assist", isLogged, (req, res, next) => {
 
     const {id} = req.params
 

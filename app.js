@@ -39,29 +39,11 @@ app.use((req, res, next) => {
 // app.use(loggedUser)
 
 
-
-// 👇 Start handling routes here
-const indexRoutes = require("./routes/index.routes");
-app.use("/", indexRoutes);
-
-const authRoutes = require("./routes/auth.routes");
-app.use("/", authRoutes);
-
-const eventRoutes = require("./routes/event.routes");
-app.use("/", eventRoutes);
-
-const artistRoutes = require("./routes/artist.routes");
-app.use("/", artistRoutes);
-
-const userRoutes = require("./routes/user.routes");
-app.use("/", userRoutes);
-
-const apiRoutes = require("./routes/api.routes");
-const loggedUser = require("./middlewares/loggedUser.middleware");
-app.use("/", apiRoutes);
-
+// Routes
+require('./routes') (app)
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
+
 
 module.exports = app;
