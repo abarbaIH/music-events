@@ -6,11 +6,10 @@ const Event = require('../models/Event.model')
 const spotifyApi = require('../services/spotify-service')
 
 const uploaderMiddleware = require('../middlewares/uploader.middleware')
-const { isLogged, isNotLogged, checkRoles } = require('../middlewares/routeGuard.middleware')
+const { isLogged, checkRoles } = require('../middlewares/routeGuard.middleware')
 
 
-
-router.get("/events", (req, res, next) => {
+router.get("/", (req, res, next) => {
 
     Event.find()
     .then( eventList => res.render('events/eventList', {eventList}))
@@ -18,39 +17,30 @@ router.get("/events", (req, res, next) => {
 });
 
 
-// --------------------------------------------------------------------------------------------------------
+router.get("/create", checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
 
-router.get("/events/create", checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
-    res.render("events/eventCreate" , {spotifyApi});
+    res.render("events/eventCreate");
 });
 
-router.post("/events/create", checkRoles("PLANNER" , "ADMIN"), uploaderMiddleware.single('eventImg'), (req, res, next) => {
+router.post("/create", checkRoles("PLANNER" , "ADMIN"), uploaderMiddleware.single('eventImg'), (req, res, next) => {
 
     const { _id : planner } = req.session.currentUser
-    const {name, description, startDate, endDate, ...artistsReceived} = req.body
+    const {name, description, startDate: start, endDate: end, ...artistsReceived} = req.body
     const { path: eventImg } = req.file
-    const date = {
-        start: startDate,
-        end: endDate
-    }
+
+    const date = { start, end }
 
     const artists = Object.values(artistsReceived)
 
     Event.create({name, eventImg, description, date, planner, artists})
     .then(() => res.redirect('/events'))
     .catch(err => next(err))
-
 });
 
 
-// --------------------------------------------------------------------------------------------------------
-
-
-router.get("/events/:id", (req, res, next) => {
+router.get("/:id", (req, res, next) => {
 
     const {id} = req.params
-
-    // const {_id} = req.session.currentUser
 
     Event.findById(id)
     .populate('assistants')
@@ -60,28 +50,18 @@ router.get("/events/:id", (req, res, next) => {
         // res.send(isOwner)
         // console.log(req.session.currentUser._id , event.planner.id)
         res.render('events/eventDetails' , {event , isOwner})
-
     })
     .catch(err => next(err))
 });
 
 
-// --------------------------------------------------------------------------------------------------------
-
-
-router.get("/events/:id/edit", isLogged, (req, res, next) => {
+router.get("/:id/edit", isLogged, (req, res, next) => {
 
     const {id} = req.params
 
-    // Event.findById(id)
-    // .then(event => res.render("events/eventEdit", event))
-    // .catch(err => next(err))
-
-
     Event.findById(id)
-    .populate('assistants')
-    .populate('planner')
-    .then( event => {
+    .populate('assistants planner')
+    .then(event => {
         if (req.session.currentUser._id === event.planner.id) {
             res.render('events/eventEdit' , event )
         } else {
@@ -92,54 +72,47 @@ router.get("/events/:id/edit", isLogged, (req, res, next) => {
 
     })
     .catch(err => next(err))
-
 });
 
-// router.post("/events/:id", uploaderMiddleware.single('eventImg'), (req, res, next) => {
+router.post("/:id", uploaderMiddleware.single('eventImg'), (req, res, next) => {
 
-//     const { _id : planner } = req.session.currentUser
-//     // res.send(planner)
+    const { _id } = req.session.currentUser
+    // res.send(planner)
 
-//     const {name, description, startDate, endDate} = req.body
+    const {name, description, startDate, endDate} = req.body
 
-//     const { path: eventImg } = req.file
+    const { path: eventImg } = req.file
 
-//     Event.create({name, eventImg, description, planner})
-//     .then(() => res.redirect('/events'))
-//     .catch(err => next(err))
-
-// });
-
-
-// --------------------------------------------------------------------------------------------------------
-
-router.post("/events/:id/delete", checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
-
-    const {id} = req.params
-
-    Event.findByIdAndDelete(id)
-    .then( () => res.redirect('/events'))
+    Event.create({name, eventImg, description, planner})
+    .then(() => res.redirect('/events'))
     .catch(err => next(err))
 
 });
 
 
-// --------------------------------------------------------------------------------------------------------
-
-
-router.post("/events/:id/assist", isLogged, (req, res, next) => {
+router.post("/:id/delete", checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
 
     const {id} = req.params
 
-    const {_id} = req.session.currentUser
+    Event.findByIdAndDelete(id)
+    .then(() => res.redirect('/events'))
+    .catch(err => next(err))
+
+});
+
+
+router.post("/:id/assist", isLogged, (req, res, next) => {
+
+    const {id: eventId} = req.params
+    const {_id: userId} = req.session.currentUser
 
 
     // CON  PROMISE ALL
     Promise.all([
-        Event.findById(id),
-        Event.findByIdAndUpdate(id, { $addToSet: { assistants: _id } })
+        Event.findById(eventId),
+        Event.findByIdAndUpdate(eventId, { $addToSet: { assistants: userId } })
     ])
-    .then( () => res.redirect(`/events/${id}`))
+    .then(() => res.redirect(`/events/${eventId}`))
     .catch(err => next(err));
 
 

@@ -5,15 +5,16 @@ document.querySelector('#artist1').onkeyup = event => {
     const { value } = event.target
 
     document.querySelector('#artist1results').innerHTML = ''
+
     fetch(`/api/getArtists/${value}`)
-    .then(response => response.json())
-    .then(data => {
-        document.querySelector('#artist1results').innerHTML = ''
-        data.forEach(artist => {
-            document.querySelector('#artist1results').innerHTML += `<option value="${artist.name}"></option>`
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('#artist1results').innerHTML = ''
+            data.forEach(artist => {
+                document.querySelector('#artist1results').innerHTML += `<option value="${artist.name}"></option>`
+            })
         })
-        })
-    .catch(error => console.log('Error:', error))
+        .catch(error => console.log('Error:', error))
 }
 
 

@@ -8,20 +8,13 @@ const isNotLogged = (req, res, next) => {
 
 const checkRoles = (...admittedRoles) => (req, res, next) => {
 
-    if (req.session.currentUser){
-        
-        const isAdmitted = admittedRoles.includes(req.session.currentUser.role)
-    
-        if (isAdmitted) {
-            next()
-        } else {
-            res.redirect('/')
-        }
+    const isAdmitted = admittedRoles.includes(req.session.currentUser.role)
 
+    if (isAdmitted) {
+        next()
     } else {
-        res.redirect('/login')
+        res.redirect('/')
     }
-
 }
 
 const checkPlannerOrAdmin = (req, res, next) => {

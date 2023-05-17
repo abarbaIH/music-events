@@ -8,42 +8,28 @@ const uploaderMiddleware = require('../middlewares/uploader.middleware')
 const { isLogged, isNotLogged, checkRoles } = require('../middlewares/routeGuard.middleware')
 
 
-/* GET profile page */
 router.get("/profile", isLogged, (req, res, next) => {
 
   const { _id } = req.session.currentUser
 
-  // CON PROMISE ALL
   Promise.all([
       User.findById(_id) ,
       Event.find({ assistants: { $in: _id } })
   ])
-  .then(promisesResponse => {
-      const user = promisesResponse[0]
-      const eventList = promisesResponse[1]
-      res.render('users/profile', {user , eventList})
-  })
+  .then(([user, eventList]) => res.render('users/profile', {user , eventList}))
   .catch(err => next(err))
 
-  // SIN PROMISE ALL
-  // Event.find({ assistants: { $in: _id } })
-  //   .then(eventList => {
-  //     User.findById(_id)
-  //       .then(user => res.render("users/profile", { user, eventList }))
-  //   })
-  //   .catch(err => next(err))
+})
 
-});
 
 router.get("/profile/edit", isLogged, (req, res, next) => {
 
     const { _id } = req.session.currentUser
 
-
     User.findById(_id)
     .then( user => res.render('users/editProfile', user))
     .catch(err => next(err))
-    
+
 });
 
 router.post("/profile/edit", isLogged, uploaderMiddleware.single('profileImg'), (req, res, next) => {
@@ -64,19 +50,18 @@ router.post("/profile/edit", isLogged, uploaderMiddleware.single('profileImg'), 
 });
 
 
-// ----------------------------------------------------------------------------------------------------------------------
-
-
 router.get("/users", checkRoles("ADMIN"), (req, res, next) => {
+
     User.find()
     .then( userList => res.render('users/userList', {userList}))
     .catch(err => next(err))
+
 });
 
 router.get("/users/:id", (req, res, next) => {
 
     const {id} = req.params
-    isAdmin = (req.session.currentUser.role === 'ADMIN')
+    const isAdmin = req.session.currentUser.role === 'ADMIN'
 
     User.findById(id)
     .then( user => res.render('users/userDetails', {user , isAdmin}))
@@ -94,7 +79,7 @@ router.get("/users/:id/edit", checkRoles('ADMIN'), (req, res, next) => {
     
 });
 
-router.post("/users/:id/edit", checkRoles('ADMIN'), uploaderMiddleware.single('profileImg'), (req, res, next) => {
+router.post("/users/:id/edit", isLogged, checkRoles('ADMIN'), uploaderMiddleware.single('profileImg'), (req, res, next) => {
 
     const { id } = req.params
     const { username, email, role } = req.body
@@ -121,7 +106,6 @@ router.post("/users/:id/delete", checkRoles('ADMIN'), (req, res, next) => {
     .catch(err => next (err))
   
 })
-
 
 
 module.exports = router

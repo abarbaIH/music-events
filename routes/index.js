@@ -7,15 +7,15 @@ module.exports = app => {
     app.use("/", authRoutes);
 
     const eventRoutes = require("./event.routes");
-    app.use("/", eventRoutes);
+    app.use("/events", eventRoutes);
 
     const artistRoutes = require("./artist.routes");
-    app.use("/", artistRoutes);
+    app.use("/artists", artistRoutes);
 
     const userRoutes = require("./user.routes");
     app.use("/", userRoutes);
 
     const apiRoutes = require("./api.routes");
-    app.use("/", apiRoutes);
+    app.use("/api", apiRoutes);
 
 }
