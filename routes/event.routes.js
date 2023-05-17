@@ -31,7 +31,7 @@ router.post("/events/create", checkRoles("PLANNER" , "ADMIN"), uploaderMiddlewar
     const { path: eventImg } = req.file
     const date = {
         start: startDate,
-        end: endDate,
+        end: endDate
     }
 
     const artists = Object.values(artistsReceived)

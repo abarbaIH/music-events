@@ -27,9 +27,13 @@ app.locals.appTitle = `Music Events`;
 
 app.use((req, res, next) => {
     app.locals.currentUser = req.session.currentUser
-    // console.log(req.session.currentUser)
+    if (req.session.currentUser) {
+        app.locals.isAdmin = req.session.currentUser.role === "ADMIN"
+        app.locals.isPlanner = req.session.currentUser.role === "PLANNER"
+    }
     next()
 })
+
     
 // const loggedUser = require('./middlewares/loggedUser.middleware')
 // app.use(loggedUser)

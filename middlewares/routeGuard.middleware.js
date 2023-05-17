@@ -8,13 +8,20 @@ const isNotLogged = (req, res, next) => {
 
 const checkRoles = (...admittedRoles) => (req, res, next) => {
 
-    const isAdmitted = admittedRoles.includes(req.session.currentUser.role)
+    if (req.session.currentUser){
+        
+        const isAdmitted = admittedRoles.includes(req.session.currentUser.role)
+    
+        if (isAdmitted) {
+            next()
+        } else {
+            res.redirect('/')
+        }
 
-    if (isAdmitted) {
-        next()
     } else {
-        res.render('index', { errorMessage: 'Access Denied' })
+        res.redirect('/login')
     }
+
 }
 
 const checkPlannerOrAdmin = (req, res, next) => {
