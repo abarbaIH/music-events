@@ -8,12 +8,10 @@ const uploaderMiddleware = require('../middlewares/uploader.middleware')
 const { isLogged, isNotLogged } = require('../middlewares/routeGuard.middleware')
 
 
-// Signup form (render)
 router.get("/signup", isNotLogged, (req, res, next) => {
     res.render("auth/signup")
 });
 
-// Signup form (handling)
 router.post("/signup", isNotLogged, uploaderMiddleware.single('profileImg'), (req, res, next) => {
 
     const { username, email, plainPassword } = req.body
@@ -33,7 +31,6 @@ router.post("/signup", isNotLogged, uploaderMiddleware.single('profileImg'), (re
         .catch(err => next(err))
 });
 
-// ----------------------------------------------------------------------------------------------------------
 
 router.get("/login", isNotLogged, (req, res, next) => {
     res.render("auth/login")
@@ -63,21 +60,16 @@ router.post('/login', isNotLogged, (req, res, next) => {
             }
 
             req.session.currentUser = user
-            res.redirect('/')
+            res.redirect('/profile')
 
         })
         .catch(error => next(error))
 })
 
 
-// ----------------------------------------------------------------------------------------------------------
-
-
-// logout
 router.get('/logout', isLogged, (req, res, next) => {
     req.session.destroy(() => res.redirect('/'))
 })
-
 
 
 module.exports = router;
