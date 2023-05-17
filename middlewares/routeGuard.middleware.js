@@ -13,8 +13,15 @@ const checkRoles = (...admittedRoles) => (req, res, next) => {
     if (isAdmitted) {
         next()
     } else {
-        res.render('auth/login', { errorMessage: 'Acceso no autorizado' })
+        res.render('index', { errorMessage: 'Access Denied' })
     }
 }
 
-module.exports = { isLogged, isNotLogged }
+const checkPlannerOrAdmin = (req, res, next) => {
+
+    const {id} = req.params
+
+    !req.session.currentUser ? next() : res.redirect('/')
+}
+
+module.exports = { isLogged, isNotLogged , checkRoles }

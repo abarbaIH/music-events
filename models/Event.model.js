@@ -53,8 +53,8 @@ const eventSchema = new Schema(
 
         artists: [{
             type: String,
-            name: String,
-            artistImg: String,
+            // name: String,
+            // artistImg: String,
             default: []
         }],
 

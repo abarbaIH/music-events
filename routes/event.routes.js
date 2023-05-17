@@ -6,10 +6,12 @@ const Event = require('../models/Event.model')
 const spotifyApi = require('../services/spotify-service')
 
 const uploaderMiddleware = require('../middlewares/uploader.middleware')
+const { isLogged, isNotLogged, checkRoles } = require('../middlewares/routeGuard.middleware')
 
 
 
 router.get("/events", (req, res, next) => {
+
     Event.find()
     .then( eventList => res.render('events/eventList', {eventList}))
     .catch(err => next(err))
@@ -18,23 +20,23 @@ router.get("/events", (req, res, next) => {
 
 // --------------------------------------------------------------------------------------------------------
 
-router.get("/events/create", (req, res, next) => {
+router.get("/events/create", checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
     res.render("events/eventCreate" , {spotifyApi});
 });
 
-router.post("/events/create", uploaderMiddleware.single('eventImg'), (req, res, next) => {
+router.post("/events/create", checkRoles("PLANNER" , "ADMIN"), uploaderMiddleware.single('eventImg'), (req, res, next) => {
 
     const { _id : planner } = req.session.currentUser
-    // res.send(planner)
-
-    const {name, description, startDate, endDate, artist1, artist2} = req.body
-
+    const {name, description, startDate, endDate, ...artistsReceived} = req.body
     const { path: eventImg } = req.file
+    const date = {
+        start: startDate,
+        end: endDate,
+    }
 
-    const artists = [] 
-    artists.push(artist1, artist2)
+    const artists = Object.values(artistsReceived)
 
-    Event.create({name, eventImg, description, planner, artists})
+    Event.create({name, eventImg, description, date, planner, artists})
     .then(() => res.redirect('/events'))
     .catch(err => next(err))
 
@@ -104,7 +106,7 @@ router.post("/events/:id/assist", (req, res, next) => {
     // CON  PROMISE ALL
     Promise.all([
         Event.findById(id),
-        Event.findByIdAndUpdate(id, { $push: { assistants: _id } })
+        Event.findByIdAndUpdate(id, { $addToSet: { assistants: _id } })
     ])
     .then( () => res.redirect(`/events/${id}`))
     .catch(err => next(err));

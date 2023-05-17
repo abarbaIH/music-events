@@ -21,7 +21,7 @@
             <div class="col">
                 <p><strong> EVENT LIST ATTENDED: </strong></p>
                 {{#each eventList}}
-                <p> {{name}} </p>
+                <a href="/events/{{id}}" class="d-block mb-2"> {{name}} </a>
                 {{/each}}
             </div>
 

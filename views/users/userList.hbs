@@ -1,0 +1,25 @@
+<div class="container mt-5">
+
+    <div>
+        <h1> USERS: </h1>
+    </div>
+
+    <hr>
+
+    <div class="container mb-5">
+
+        <div class="row d-flex justify-content-around mb-5">
+
+            {{#each userList}}
+
+            <div class="container mb-3">
+                <a href="/users/{{id}}">{{username}} ({{role}})</a>
+            </div>
+
+            {{/each}}
+
+        </div>
+
+    </div>
+
+</div>

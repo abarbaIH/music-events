@@ -1,0 +1,46 @@
+<div class="container mt-5">
+
+    <div>
+        <h1>User Details</h1>
+    </div>
+
+    <hr>
+
+    <div class="row container mt-5">
+
+        <div class="col-md-6 col-gd-3">
+            <img src="{{user.profileImg}}" alt="{{user.name}}">
+        </div>
+
+        <div class="col-md-6 col-gd-3 mt-3">
+
+            <div class="container mt-2">
+                <h2>{{user.username}}</h2>
+            </div>
+
+            <div class="container mt-5">
+                <p><strong>Email:</strong> {{user.email}}</p>
+                <p><strong>Role:</strong> {{user.role}}</p>
+            </div>
+
+            {{#if isAdmin }}
+
+            <div class="d-grid gap-2 col-3 mx-auto mt-5">
+                <a href="/users/{{user.id}}/edit" class="btn btn-dark btn-sm">Edit User</a>
+            </div>
+
+            <div class="d-grid gap-2 col-3 mx-auto mt-5">
+                <form action="/users/{{user.id}}/delete" method="POST">
+                    <button class="btn btn-danger"> DELETE USER </button>
+                </form>
+            </div>
+
+            {{/if}}
+
+        </div>
+
+    </div>
+
+    <hr>
+
+</div>

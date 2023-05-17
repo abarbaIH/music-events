@@ -1,27 +1,27 @@
 <div class="container mt-5">
 
     <div>
-        <h1> {{name}} </h1>
+        <h1> {{name}} </h1>
     </div>
 
     <hr>
 
     <div class="row container">
 
-        <div class="col-md-5 col-gd-3">
+        <div class="col-md-4 col-gd-3">
             <img src="{{eventImg}}" alt="{{name}}">
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-3">
             <p><strong>DESCRIPTION: </strong> {{description}} </p>
-            <p><strong> ARTIST LIST: </strong></p>
-            {{#each artists}}
-            <p> {{this}} </p>
-            {{/each}}
         </div>
 
-        <div class="col-md-2 col-gd-6">
-            <p><strong>ASSISTANTS NUMBER: </strong> {{assistants.length}} </p>
+        <div class="col-md-3 col-gd-6">
+            <p><strong> ARTIST LIST: </strong></p>
+            {{#each artists}}
+            <a href="/api/getOneArtist/{{this}}" class="d-block mb-2"> {{this}} </a>
+            {{/each}}
+            {{!-- <p><strong>ASSISTANTS NUMBER: </strong> {{assistants.length}} </p> --}}
 
             {{!-- <p>Followes: {{followers.total}}</p>
             <p>Genero: {{genres}}</p> --}}
@@ -31,18 +31,17 @@
             </div> --}}
         </div>
 
-        <div class="col-md-3">
-            <p><strong> ASSISTANTS LIST: </strong></p>
+        <div class="col-md-2">
+            <p><strong> ASSISTANTS LIST ({{assistants.length}}): </strong></p>
             {{#each assistants}}
-            <p> {{username}} </p>
+            <a href="/users/{{id}}" class="d-block mb-2"> {{username}} </a>
             {{/each}}
         </div>
 
     </div>
 
-    <div class="container mt-5">
-        <a href="/events" class="btn btn-dark btn-sm">Return to Events</a>
-    </div>
+    <hr>
+
     <div class="container mt-5">
         <a href="/events/{{id}}/edit" class="btn btn-dark btn-sm">Edit Event</a>
     </div>
