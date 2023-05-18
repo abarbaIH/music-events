@@ -11,19 +11,19 @@
             </div>
 
             <div class="col">
-                <p><strong> EMAIL: </strong> {{user.email}} </p>
+                <p class="mb-3"><strong> EMAIL: </strong> {{user.email}} </p>
                 <p><strong> ROLE: </strong> {{user.role}} </p>
             </div>
 
             <div class="col">
-                <p><strong> FAVORITE ARTISTS ({{user.favoriteArtists.length}}): </strong></p>
+                <p class="mb-3"><strong> FAVORITE ARTISTS ({{user.favoriteArtists.length}}): </strong></p>
                 {{#each user.favoriteArtists}}
                 <a href="/artists/{{id}}" class="d-block mb-2"> {{name}} </a>
                 {{/each}}
             </div>
 
             <div class="col">
-                <p><strong> EVENT LIST ATTENDED ({{eventList.length}}): </strong></p>
+                <p class="mb-3"><strong> EVENT LIST ATTENDED ({{eventList.length}}): </strong></p>
                 {{#each eventList}}
                 <a href="/events/{{id}}" class="d-block mb-2"> {{name}} </a>
                 {{/each}}

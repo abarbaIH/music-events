@@ -120,7 +120,7 @@ router.post("/:id/delete", isLogged, checkRoles("PLANNER" , "ADMIN"), (req, res,
         
     Event.findById(id)
     .then(event => {
-        if (req.session.currentUser._id === event.planner.id || req.session.currentUser.role==="ADMIN") {
+        if (req.session.currentUser._id === String(event.planner) || req.session.currentUser.role==="ADMIN") {
             Event.findByIdAndDelete(id)
             .then(() => res.redirect('/events'))
             .catch(err => next(err))

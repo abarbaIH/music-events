@@ -14,18 +14,29 @@ a {
   color: #00b7ff;
 }
 
+p {
+  margin-bottom: 0;
+}
+
 img {
   width: 80%
 }
 
 .div-card-img {
-  height: 25em;
+  height: 20em;
   width: 100%;
 }
 
 .img-card-img {
   object-fit: cover;
-  width: 100%
+  width: 100%;
+  height: inherit;
+}
+
+.user-img {
+  object-fit: cover;
+  width: 3em;
+  height: inherit;
 }
 
 h1 {
