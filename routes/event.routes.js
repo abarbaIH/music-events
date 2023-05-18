@@ -26,17 +26,21 @@ router.get("/create", checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
 router.post("/create", checkRoles("PLANNER" , "ADMIN"), uploaderMiddleware.single('eventImg'), (req, res, next) => {
 
     const { _id : planner } = req.session.currentUser
-    const {name, description, startDate: start, endDate: end, ...artistsReceived} = req.body
+    const {name, description, startDate: start, endDate: end, lat, lon, ...artistsReceived} = req.body
     const date = { start, end }
     const artists = Object.values(artistsReceived)
+    const location = {
+        type: 'point' ,
+        coordinates: [lat , lon]
+    }
 
     if (req.file) {
         const { path: eventImg } = req.file
-        Event.create({name, eventImg, description, date, planner, artists})
+        Event.create({name, eventImg, description, date, planner, location, artists})
         .then(() => res.redirect('/events'))
         .catch(err => next(err))
     } else {
-        Event.create({name, description, date, planner, artists})
+        Event.create({name, description, date, planner, location, artists})
         .then(() => res.redirect('/events'))
         .catch(err => next(err))
     }
@@ -47,9 +51,6 @@ router.post("/create", checkRoles("PLANNER" , "ADMIN"), uploaderMiddleware.singl
 router.get("/:id", (req, res, next) => {
 
     const {id} = req.params
-
-    const {_id} = req.session.currentUser
-    console.log(req.session.currentUser._id)
 
     Event.findById(id)
     .populate('assistants')
@@ -92,15 +93,20 @@ router.get("/:id/edit", isLogged, checkRoles("PLANNER" , "ADMIN"), (req, res, ne
 router.post("/:id/edit", isLogged, uploaderMiddleware.single('eventImg'), (req, res, next) => {
 
     const {id} = req.params
-    const {name, description, startDate: start, endDate: end} = req.body
+    const {name, description, startDate: start, endDate: end, lat, lon, ...artistsReceived} = req.body
     const date = { start, end }
+    const location = {
+        type: 'point' ,
+        coordinates: [lat , lon]
+    }
+    const artists = Object.values(artistsReceived)
     if (req.file) {
         const { path: eventImg } = req.file
-        Event.findByIdAndUpdate(id, {name, eventImg, description, date})
+        Event.findByIdAndUpdate(id, {name, eventImg, description, date, location, artists})
         .then(() => res.redirect(`/events/${id}`))
         .catch(err => next(err))
     } else {
-        Event.findByIdAndUpdate(id, {name, description, date})
+        Event.findByIdAndUpdate(id, {name, description, date, location, artists})
         .then(() => res.redirect(`/events/${id}`))
         .catch(err => next(err))
     }

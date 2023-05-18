@@ -40,7 +40,7 @@
     <hr>
 
     {{#if currentUser}}
-    <div class="container mt-5">
+    <div class="container mt-3 mb-3">
 
         {{#if assist}}
         <form action="/events/{{event.id}}/notassist" method="POST">
@@ -54,6 +54,12 @@
 
     </div>
     {{/if}}
+
+    <hr>
+
+    <div id="map" class="mt-5 mb-5"></div>
+
+    <hr>
 
     {{#if isOwner}}
     <div class="container mt-5">
@@ -77,4 +83,13 @@
     </div>
     {{/if}}
 
+    <input type="hidden" id="eventName" value="{{event.name}}">
+    <input type="hidden" id="eventLat" value="{{event.location.coordinates.[0]}}">
+    <input type="hidden" id="eventLon" value="{{event.location.coordinates.[1]}}">
+
 </div>
+
+
+<script src="/js/map.js"></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyBRgKaKfGaksL3PDZ-uWmOsj-PCBgJSE-E"></script>

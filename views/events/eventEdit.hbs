@@ -33,7 +33,60 @@
                     <input type="date" class="form-control" id="" name="endDate" value="{{endDateFormatted}}">
                 </div>
 
-                <button type="submit" class="btn btn-dark">Update Event</button>
+                <div class="container mb-3">
+                    <label for=""> LATITUD </label>
+                    <input type="text" name="lat" value="{{event.location.coordinates.[0]}}">
+                </div>
+
+                <div class="container mb-3">
+                    <label for=""> LONGITUD </label>
+                    <input type="text" name="lon" value="{{event.location.coordinates.[1]}}">
+                </div>
+
+                <div class="container">
+
+                    <div class="container mb-3">
+                        <label for="artist1">Artista #1</label>
+                        <input list="artist1results" id="artist1" name="artist1" value="{{event.artists.[0]}}">
+                        <datalist id="artist1results">
+
+                        </datalist>
+                    </div>
+
+                    <div class="container mb-3">
+                        <label for="artist2">Artista #2</label>
+                        <input list="artist2results" id="artist2" name="artist2" value="{{event.artists.[1]}}">
+                        <datalist id="artist2results">
+
+                        </datalist>
+                    </div>
+
+                    <div class="container mb-3">
+                        <label for="artist3">Artista #3</label>
+                        <input list="artist3results" id="artist3" name="artist3" value="{{event.artists.[2]}}">
+                        <datalist id="artist3results">
+
+                        </datalist>
+                    </div>
+
+                    <div class="container mb-3">
+                        <label for="artist4">Artista #4</label>
+                        <input list="artist4results" id="artist4" name="artist4" value="{{event.artists.[3]}}">
+                        <datalist id="artist4results">
+
+                        </datalist>
+                    </div>
+
+                    <div class="container mb-3">
+                        <label for="artist5">Artista #5</label>
+                        <input list="artist5results" id="artist5" name="artist5" value="{{event.artists.[4]}}">
+                        <datalist id="artist5results">
+
+                        </datalist>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-dark mb-5">Update Event</button>
             </form>
 
         </div>
@@ -41,3 +94,6 @@
     </div>
 
 </div>
+
+
+<script src="/js/select-artists.js"></script>

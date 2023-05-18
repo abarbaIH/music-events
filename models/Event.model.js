@@ -24,17 +24,11 @@ const eventSchema = new Schema(
             // set: value => value.charAt(0).toUpperCase() + value.substring(1)
         },
 
-        place: {
-            address: String,
-            zipcode: String,
-            city: String,
-            country: String,
-            location: {
-                type: {
-                    type: String
-                },
-                coordinates: [Number]
+        location: {
+            type: {
+                type: String
             },
+            coordinates: [Number]
         },
 
         date: {
