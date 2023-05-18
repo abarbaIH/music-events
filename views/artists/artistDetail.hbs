@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
 
     <div>
         <h1>Artist Details</h1>
@@ -8,23 +8,45 @@
 
     <div class="row container">
         <div class="col-md-6 col-gd-3">
-            <img src="{{images.[0].url}}" alt="{{name}}">
+            <img src="{{body.images.[0].url}}" alt="{{body.name}}">
         </div>
 
         <div class="col-md-6 col-gd-3 mt-3">
             <div class="container mt-2">
-                <h2>{{name}}</h2>
+                <h2>{{body.name}}</h2>
             </div>
 
-            <div class="container mt-5">
-                <p><strong>Followers:</strong> {{followers.total}}</p>
+            <div class="container mt-5 mb-5">
+                <p><strong>Followers:</strong> {{body.followers.total}}</p>
             </div>
 
-            {{!-- <div class="d-grid gap-2 col-3 mx-auto mt-5">
-                <a href="/artists" class="btn btn-dark btn-sm">Return ArtistsList</a>
-            </div> --}}
+            <div class="mt-5">
+
+                {{#if currentUser}}
+                <div class="container mt-4 mb-3">
+
+                    {{#if isFavorite}}
+                    <form action="/users/removefavorite" method="POST">
+                        <input type="hidden" id="eventName" name="artist" value="{{body.name}}">
+                        <input type="hidden" id="eventName" name="artist" value="{{body.id}}">
+                        <button class="btn btn-danger mb-3"> REMOVE FROM FAVORITES </button>
+                    </form>
+
+                    {{else}}
+                    <form action="/users/addfavorite" method="POST">
+                        <input type="hidden" id="eventName" name="artist" value="{{body.name}}">
+                        <input type="hidden" id="eventName" name="artist" value="{{body.id}}">
+                        <button class="btn btn-danger"> ADD TO FAVORITES </button>
+                    </form>
+                    {{/if}}
+
+                </div>
+                {{/if}}
+
+            </div>
 
         </div>
+
     </div>
 
     <hr>

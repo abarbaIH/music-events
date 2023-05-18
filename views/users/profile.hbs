@@ -16,6 +16,13 @@
             </div>
 
             <div class="col">
+                <p><strong> FAVORITE ARTISTS ({{user.favoriteArtists.length}}): </strong></p>
+                {{#each user.favoriteArtists}}
+                <a href="/artists/{{id}}" class="d-block mb-2"> {{name}} </a>
+                {{/each}}
+            </div>
+
+            <div class="col">
                 <p><strong> EVENT LIST ATTENDED ({{eventList.length}}): </strong></p>
                 {{#each eventList}}
                 <a href="/events/{{id}}" class="d-block mb-2"> {{name}} </a>

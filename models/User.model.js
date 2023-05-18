@@ -10,7 +10,6 @@ const userSchema = new Schema(
       lowercase: true,
       minlength: 2,
       maxlength: 25,
-      // set: value => value.charAt(0).toUpperCase() + value.substring(1)
     },
 
     profileImg: {
@@ -24,10 +23,6 @@ const userSchema = new Schema(
       required: true,
       unique: true,
       lowercase: true,
-      // validate: {
-      // validator: value => value.endsWith('@gmail.com'),
-      // message: 'Only gmail clients'
-      // }
     },
 
     role: {
@@ -42,9 +37,12 @@ const userSchema = new Schema(
     },
 
     favoriteArtists: [{
-            type: String,
-            default: []
-        }],
+      type: {
+        id: {type: String,},
+        name: {type: String}
+      },
+      default: []
+    }]
 
   },
   {

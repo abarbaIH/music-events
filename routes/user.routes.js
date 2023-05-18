@@ -36,16 +36,23 @@ router.post("/profile/edit", isLogged, uploaderMiddleware.single('profileImg'), 
 
     const { _id } = req.session.currentUser
     const { username, email } = req.body
-    const { path: profileImg } = req.file
 
     if (username.length === 0 || email.length === 0) {
         res.render('users/:id/edit', { errMessage: '***fields are required***' })
         return
     }
 
-    User.findByIdAndUpdate(_id, {username, email, profileImg})
-    .then( () => res.redirect(`/profile`))
-    .catch(err => next(err))
+    if (req.file){
+        const { path: profileImg } = req.file
+
+        User.findByIdAndUpdate(id, {username, email, profileImg, role})
+        .then( () => res.redirect(`/users/${id}`))
+        .catch(err => next(err))
+    } else {
+        User.findByIdAndUpdate(id, {username, email, role})
+        .then( () => res.redirect(`/users/${id}`))
+        .catch(err => next(err))
+    }
 
 });
 
@@ -83,26 +90,66 @@ router.post("/users/:id/edit", isLogged, checkRoles('ADMIN'), uploaderMiddleware
 
     const { id } = req.params
     const { username, email, role } = req.body
-    const { path: profileImg } = req.file
-
+    
     if (username.length === 0 || email.length === 0) {
         res.render('users/:id/edit', { errMessage: '***fields are required***' })
         return
     }
+    if (req.file){
+        const { path: profileImg } = req.file
 
-    User.findByIdAndUpdate(id, {username, email, profileImg, role})
-    .then( () => res.redirect(`/users/${id}`))
-    .catch(err => next(err))
+        User.findByIdAndUpdate(id, {username, email, profileImg, role})
+        .then( () => res.redirect(`/users/${id}`))
+        .catch(err => next(err))
+    } else {
+        User.findByIdAndUpdate(id, {username, email, role})
+        .then( () => res.redirect(`/users/${id}`))
+        .catch(err => next(err))
+    }
 
 });
 
 
-router.post("/users/:id/delete", checkRoles('ADMIN'), (req, res, next) => {
+router.post("/users/:id/delete", isLogged, checkRoles('ADMIN'), (req, res, next) => {
 
     const { id } = req.params
     
     User.findByIdAndDelete(id)
     .then(() => res.redirect("/users"))
+    .catch(err => next (err))
+  
+})
+
+router.post("/users/addfavorite", isLogged, (req, res, next) => {
+
+    const {artist} = req.body
+    const {_id} = req.session.currentUser
+
+    const artistStructured = {
+        id: artist[1],
+        name: artist[0],
+    }
+
+    User
+    .findByIdAndUpdate(_id, { $addToSet: {favoriteArtists: artistStructured}})
+    .then(() => res.redirect(`/artists/${artistStructured.id}`))
+    .catch(err => next (err))
+  
+})
+
+router.post("/users/removefavorite", isLogged, (req, res, next) => {
+
+    const {artist} = req.body
+    const {_id} = req.session.currentUser
+
+    const artistStructured = {
+        id: artist[1],
+        name: artist[0],
+    }
+
+    User
+    .findByIdAndUpdate(_id, { $pull: {favoriteArtists: artistStructured}})
+    .then(() => res.redirect(`/artists/${artistStructured.id}`))
     .catch(err => next (err))
   
 })

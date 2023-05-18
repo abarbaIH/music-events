@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const spotifyApi = require('../services/spotify-service')
+const spotifyApi = require('../services/spotify-service');
+const User = require('../models/User.model');
 
 
 router.get("/", (req, res, next) => {
@@ -31,10 +32,26 @@ router.get("/:id", (req, res, next) => {
 
     const { id } = req.params
 
-    spotifyApi
-        .getArtist(id)
-        .then(({body}) => res.render('artists/artistDetail', body))
-        .catch(error => next(error))
+    const {_id} = req.session.currentUser
+
+    User.findById(_id)
+    .then(user => {
+        let isFavorite = false
+        user.favoriteArtists.forEach(artist => {
+            if (artist.id == id) isFavorite = true
+        })
+        spotifyApi.getArtist(id)
+        .then(({body}) => res.render('artists/artistDetail', {body, isFavorite}))
+    })
+    .catch(error => next(error))
+
+    // spotifyApi
+    //     .getArtist(id)
+    //     .then(({body}) =>{
+    //         res.render('artists/artistDetail', body)
+    //     })
+    //     .catch(error => next(error))
+
 })
 
 

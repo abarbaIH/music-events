@@ -21,14 +21,23 @@ router.post("/signup", isNotLogged, uploaderMiddleware.single('profileImg'), (re
         return
     }
 
-    const { path: profileImg } = req.file
-
-    bcrypt
+    if (req.file) {
+        const { path: profileImg } = req.file
+        bcrypt
         .genSalt(saltRounds)
         .then(salt => bcrypt.hash(plainPassword, salt))
         .then(hashedPass => User.create({ username, email, profileImg, password: hashedPass }))
         .then(() => res.redirect('/'))
         .catch(err => next(err))
+    } else {
+        bcrypt
+        .genSalt(saltRounds)
+        .then(salt => bcrypt.hash(plainPassword, salt))
+        .then(hashedPass => User.create({ username, email, password: hashedPass }))
+        .then(() => res.redirect('/'))
+        .catch(err => next(err))
+    }
+
 });
 
 
