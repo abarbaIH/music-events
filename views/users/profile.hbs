@@ -12,14 +12,11 @@
 
             <div class="col">
                 <p><strong> EMAIL: </strong> {{user.email}} </p>
+                <p><strong> ROLE: </strong> {{user.role}} </p>
             </div>
 
             <div class="col">
-                <p><strong> EVENTS ATTENDED: </strong> {{eventList.length}} </p>
-            </div>
-
-            <div class="col">
-                <p><strong> EVENT LIST ATTENDED: </strong></p>
+                <p><strong> EVENT LIST ATTENDED ({{eventList.length}}): </strong></p>
                 {{#each eventList}}
                 <a href="/events/{{id}}" class="d-block mb-2"> {{name}} </a>
                 {{/each}}

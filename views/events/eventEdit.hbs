@@ -7,15 +7,15 @@
 
             <hr>
 
-            <form action="/events/{{id}}/edit" method="POST" enctype="multipart/form-data">
+            <form action="/events/{{event.id}}/edit" method="POST" enctype="multipart/form-data">
                 <div class="mb-3 mt-5">
                     <label for="" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="" name="name" value="{{name}}">
+                    <input type="text" class="form-control" id="" name="name" value="{{event.name}}">
                 </div>
 
                 <div class="mb-3">
                     <label for="" class="form-label">Descripction</label>
-                    <input type="text" class="form-control" id="" name="description" value="{{description}}">
+                    <input type="text" class="form-control" id="" name="description" value="{{event.description}}">
                 </div>
 
                 <div class="mb-3">
@@ -25,12 +25,12 @@
 
                 <div class="mb-3 ">
                     <label for="" class="form-label">Start Date</label>
-                    <input type="date" class="form-control" id="" name="startDate" value="{{date.start}}">
+                    <input type="date" class="form-control" id="" name="startDate" value="{{startDateFormatted}}">
                 </div>
 
                 <div class="mb-3 ">
                     <label for="" class="form-label">End Date</label>
-                    <input type="date" class="form-control" id="" name="endDate" value="{{date.end}}">
+                    <input type="date" class="form-control" id="" name="endDate" value="{{endDateFormatted}}">
                 </div>
 
                 <button type="submit" class="btn btn-dark">Update Event</button>

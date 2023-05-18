@@ -58,7 +58,7 @@ router.get("/users", checkRoles("ADMIN"), (req, res, next) => {
 
 });
 
-router.get("/users/:id", (req, res, next) => {
+router.get("/users/:id", isLogged, (req, res, next) => {
 
     const {id} = req.params
     const isAdmin = req.session.currentUser.role === 'ADMIN'

@@ -13,7 +13,8 @@ const eventSchema = new Schema(
         },
 
         eventImg: {
-            type: String
+            type: String,
+            default: 'https://res.cloudinary.com/duewvq0qa/image/upload/v1684316440/ddgkodz01eq2ymkevhy3.png'
         },
 
         description: {

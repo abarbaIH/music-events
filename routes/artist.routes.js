@@ -16,7 +16,7 @@ router.get("/search", (req, res, next) => {
     res.render('artists/artistSearch')
 })
 
-router.get("/search", (req, res, next) => {
+router.get("/search-results", (req, res, next) => {
 
     const { nameArtist } = req.query
 

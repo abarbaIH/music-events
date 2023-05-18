@@ -6,7 +6,8 @@ const Event = require('../models/Event.model')
 const spotifyApi = require('../services/spotify-service')
 
 const uploaderMiddleware = require('../middlewares/uploader.middleware')
-const { isLogged, checkRoles } = require('../middlewares/routeGuard.middleware')
+const { isLogged, checkRoles } = require('../middlewares/routeGuard.middleware');
+const { formatDate } = require('../utils/date-format');
 
 
 router.get("/", (req, res, next) => {
@@ -26,15 +27,20 @@ router.post("/create", checkRoles("PLANNER" , "ADMIN"), uploaderMiddleware.singl
 
     const { _id : planner } = req.session.currentUser
     const {name, description, startDate: start, endDate: end, ...artistsReceived} = req.body
-    const { path: eventImg } = req.file
-
     const date = { start, end }
-
     const artists = Object.values(artistsReceived)
 
-    Event.create({name, eventImg, description, date, planner, artists})
-    .then(() => res.redirect('/events'))
-    .catch(err => next(err))
+    if (req.file) {
+        const { path: eventImg } = req.file
+        Event.create({name, eventImg, description, date, planner, artists})
+        .then(() => res.redirect('/events'))
+        .catch(err => next(err))
+    } else {
+        Event.create({name, description, date, planner, artists})
+        .then(() => res.redirect('/events'))
+        .catch(err => next(err))
+    }
+
 });
 
 
@@ -42,63 +48,83 @@ router.get("/:id", (req, res, next) => {
 
     const {id} = req.params
 
+    const {_id} = req.session.currentUser
+    console.log(req.session.currentUser._id)
+
     Event.findById(id)
     .populate('assistants')
     .populate('planner')
     .then( event => {
-        const isOwner = req.session.currentUser._id === event.planner.id
-        // res.send(isOwner)
-        // console.log(req.session.currentUser._id , event.planner.id)
-        res.render('events/eventDetails' , {event , isOwner})
+        let isOwner
+        if(req.session.currentUser){
+            isOwner = req.session.currentUser._id === event.planner.id
+        } else isOwner = false
+        const startDateFormatted = formatDate(event.date.start)
+        const endDateFormatted = formatDate(event.date.end)
+        let assist = false
+        event.assistants.forEach( elm => {
+            if (elm._id.toString() == req.session.currentUser._id) assist = true
+        })
+        res.render('events/eventDetails' , {event , isOwner, startDateFormatted, endDateFormatted, assist})
     })
     .catch(err => next(err))
 });
 
 
-router.get("/:id/edit", isLogged, (req, res, next) => {
+router.get("/:id/edit", isLogged, checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
 
     const {id} = req.params
 
     Event.findById(id)
     .populate('assistants planner')
     .then(event => {
-        if (req.session.currentUser._id === event.planner.id) {
-            res.render('events/eventEdit' , event )
+        if (req.session.currentUser._id === event.planner.id || req.session.currentUser.role==="ADMIN") {
+            const startDateFormatted = formatDate(event.date.start)
+            const endDateFormatted = formatDate(event.date.end)
+            res.render('events/eventEdit' , {event , startDateFormatted , endDateFormatted} )
         } else {
             res.redirect(`/events/${id}`)
         }
-        // res.send(isOwner)
-        // console.log(req.session.currentUser._id , event.planner.id)
-
     })
     .catch(err => next(err))
 });
 
-router.post("/:id", uploaderMiddleware.single('eventImg'), (req, res, next) => {
-
-    const { _id } = req.session.currentUser
-    // res.send(planner)
-
-    const {name, description, startDate, endDate} = req.body
-
-    const { path: eventImg } = req.file
-
-    Event.create({name, eventImg, description, planner})
-    .then(() => res.redirect('/events'))
-    .catch(err => next(err))
-
-});
-
-
-router.post("/:id/delete", checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
+router.post("/:id/edit", isLogged, uploaderMiddleware.single('eventImg'), (req, res, next) => {
 
     const {id} = req.params
-
-    Event.findByIdAndDelete(id)
-    .then(() => res.redirect('/events'))
-    .catch(err => next(err))
+    const {name, description, startDate: start, endDate: end} = req.body
+    const date = { start, end }
+    if (req.file) {
+        const { path: eventImg } = req.file
+        Event.findByIdAndUpdate(id, {name, eventImg, description, date})
+        .then(() => res.redirect(`/events/${id}`))
+        .catch(err => next(err))
+    } else {
+        Event.findByIdAndUpdate(id, {name, description, date})
+        .then(() => res.redirect(`/events/${id}`))
+        .catch(err => next(err))
+    }
 
 });
+
+
+router.post("/:id/delete", isLogged, checkRoles("PLANNER" , "ADMIN"), (req, res, next) => {
+
+    const {id} = req.params
+        
+    Event.findById(id)
+    .then(event => {
+        if (req.session.currentUser._id === event.planner.id || req.session.currentUser.role==="ADMIN") {
+            Event.findByIdAndDelete(id)
+            .then(() => res.redirect('/events'))
+            .catch(err => next(err))
+        } else {
+            res.redirect(`/events/${id}`)
+        }
+    })
+    .catch(err => next(err))
+
+})
 
 
 router.post("/:id/assist", isLogged, (req, res, next) => {
@@ -106,27 +132,22 @@ router.post("/:id/assist", isLogged, (req, res, next) => {
     const {id: eventId} = req.params
     const {_id: userId} = req.session.currentUser
 
-
-    // CON  PROMISE ALL
-    Promise.all([
-        Event.findById(eventId),
-        Event.findByIdAndUpdate(eventId, { $addToSet: { assistants: userId } })
-    ])
+    Event.findByIdAndUpdate(eventId, { $addToSet: { assistants: userId } })
     .then(() => res.redirect(`/events/${eventId}`))
     .catch(err => next(err));
 
-
-    // SIN PROMISE ALL
-    // Event.findById(id)
-    // .then(event => {
-    //     event.assistants.push(_id)
-    //     Event.findByIdAndUpdate(id, {assistants: event.assistants})
-    //     .then( () => res.redirect(`/events/${id}`))        
-    // }) 
-    // .catch(err => next(err))
-
 });
 
+router.post("/:id/notassist", isLogged, (req, res, next) => {
+
+    const {id: eventId} = req.params
+    const {_id: userId} = req.session.currentUser
+
+    Event.findByIdAndUpdate(eventId, { $pull: { assistants: userId } })
+    .then(() => res.redirect(`/events/${eventId}`))
+    .catch(err => next(err));
+
+});
 
 
 module.exports = router;
