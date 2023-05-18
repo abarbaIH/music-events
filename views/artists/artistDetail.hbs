@@ -7,11 +7,13 @@
     <hr>
 
     <div class="row container">
+
         <div class="col-md-6 col-gd-3">
             <img src="{{body.images.[0].url}}" alt="{{body.name}}">
         </div>
 
         <div class="col-md-6 col-gd-3 mt-3">
+
             <div class="container mt-2">
                 <h2>{{body.name}}</h2>
             </div>
@@ -21,10 +23,8 @@
             </div>
 
             <div class="mt-5">
-
                 {{#if currentUser}}
                 <div class="container mt-4 mb-3">
-
                     {{#if isFavorite}}
                     <form action="/users/removefavorite" method="POST">
                         <input type="hidden" id="eventName" name="artist" value="{{body.name}}">
@@ -39,10 +39,8 @@
                         <button class="btn btn-danger"> ADD TO FAVORITES </button>
                     </form>
                     {{/if}}
-
                 </div>
                 {{/if}}
-
             </div>
 
         </div>

@@ -48,7 +48,7 @@ router.post("/create", checkRoles("PLANNER" , "ADMIN"), uploaderMiddleware.singl
 });
 
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", isLogged, (req, res, next) => {
 
     const {id} = req.params
 

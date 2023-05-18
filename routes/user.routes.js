@@ -44,13 +44,12 @@ router.post("/profile/edit", isLogged, uploaderMiddleware.single('profileImg'), 
 
     if (req.file){
         const { path: profileImg } = req.file
-
-        User.findByIdAndUpdate(id, {username, email, profileImg, role})
-        .then( () => res.redirect(`/users/${id}`))
+        User.findByIdAndUpdate(_id, {username, email, profileImg})
+        .then( () => res.redirect(`/profile`))
         .catch(err => next(err))
     } else {
-        User.findByIdAndUpdate(id, {username, email, role})
-        .then( () => res.redirect(`/users/${id}`))
+        User.findByIdAndUpdate(_id, {username, email})
+        .then( () => res.redirect(`/profile`))
         .catch(err => next(err))
     }
 

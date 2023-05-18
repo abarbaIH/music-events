@@ -3,6 +3,7 @@ const router = express.Router();
 
 const spotifyApi = require('../services/spotify-service');
 const User = require('../models/User.model');
+const { isLogged } = require('../middlewares/routeGuard.middleware');
 
 
 router.get("/", (req, res, next) => {
@@ -28,7 +29,7 @@ router.get("/search-results", (req, res, next) => {
 })
 
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", isLogged, (req, res, next) => {
 
     const { id } = req.params
 
@@ -44,13 +45,6 @@ router.get("/:id", (req, res, next) => {
         .then(({body}) => res.render('artists/artistDetail', {body, isFavorite}))
     })
     .catch(error => next(error))
-
-    // spotifyApi
-    //     .getArtist(id)
-    //     .then(({body}) =>{
-    //         res.render('artists/artistDetail', body)
-    //     })
-    //     .catch(error => next(error))
 
 })
 
