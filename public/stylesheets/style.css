@@ -1,8 +1,9 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  background-image: url(./../images/16.gif);
-  color: white
+  /* background-image: url(./../images/wallpaper.jpg); */
+  background-color: black;
+  color: wheat
 }
 
 nav {
@@ -34,6 +35,10 @@ h1 {
 #map {
   height: 600px;
   background-color: red;
+}
+
+#carouselExample {
+  height: 100vh
 }
 
 #errorMessage {

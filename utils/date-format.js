@@ -1,11 +1,11 @@
 const formatDate = date => {
 
     const fechaObj = new Date(date);
-    const dia = fechaObj.getDate().toString().padStart(2, '0');
-    const mes = (fechaObj.getMonth() + 1).toString().padStart(2, '0');
-    const año = fechaObj.getFullYear().toString();
+    const day = fechaObj.getDate().toString().padStart(2, '0');
+    const month = (fechaObj.getMonth() + 1).toString().padStart(2, '0');
+    const year = fechaObj.getFullYear().toString();
 
-    return `${año}-${mes}-${dia}`
+    return `${year}-${month}-${day}`
 }
 
 module.exports = { formatDate }
