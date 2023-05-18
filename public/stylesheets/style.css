@@ -1,14 +1,37 @@
+:root {
+  --color: wheat;
+}
+
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  /* background-image: url(./../images/wallpaper.jpg); */
   background-color: black;
-  color: wheat
+  color: var(--color)
 }
 
+
 nav {
-  background-color: #e3f2fd;
+  /* background-color: rgb(43, 43, 43); */
+  background-color: black;
 }
+
+nav a,
+nav ul li a {
+  color: var(--color) !important;
+}
+
+.background-index {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-image: url(/images/wallpaper2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  position: fixed;
+}
+
+
 
 a {
   color: #00b7ff;
@@ -45,7 +68,6 @@ h1 {
 
 #map {
   height: 600px;
-  background-color: red;
 }
 
 #carouselExample {

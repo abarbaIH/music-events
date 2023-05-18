@@ -28,23 +28,23 @@
                     <input type="date" class="form-control" id="" name="startDate" value="{{startDateFormatted}}">
                 </div>
 
-                <div class="mb-3 ">
+                <div class="mb-5">
                     <label for="" class="form-label">End Date</label>
                     <input type="date" class="form-control" id="" name="endDate" value="{{endDateFormatted}}">
                 </div>
 
-                <div class="container mb-3">
-                    <label for=""> LATITUD </label>
-                    <input type="text" name="lat" value="{{event.location.coordinates.[0]}}">
+                <div class="mb-3">
+                    <label for="" class="form-label"> Latitude </label>
+                    <input type="text" class="form-control" name="lat" value="{{event.location.coordinates.[0]}}">
                 </div>
 
-                <div class="container mb-3">
-                    <label for=""> LONGITUD </label>
-                    <input type="text" name="lon" value="{{event.location.coordinates.[1]}}">
+                <div class="mb-5">
+                    <label for="" class="form-label"> Longitude </label>
+                    <input type="text" class="form-control" name="lon" value="{{event.location.coordinates.[1]}}">
                 </div>
 
-                <div class="container">
 
+                <div class="mt-5">
                     <div class="container mb-3">
                         <label for="artist1">Artista #1</label>
                         <input list="artist1results" id="artist1" name="artist1" value="{{event.artists.[0]}}">
@@ -86,7 +86,10 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-dark mb-5">Update Event</button>
+                <div class="container mt-5 mb-5">
+                    <button type="submit" class="btn btn-dark mb-5">Update Event</button>
+                </div>
+
             </form>
 
         </div>

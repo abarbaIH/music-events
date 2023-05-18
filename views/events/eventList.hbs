@@ -9,13 +9,22 @@
         <div class="row d-flex justify-content-around">
 
             {{#each eventList}}
-            <div class="col-md-4 p-4 mb-2">
+            <div class="col-md-3 p-4 mb-2">
+
+                {{!-- <article class="card p-3 mb-3">
+                    <img class="artist-img mb-3" src="{{eventImg}}" alt="{{name}}">
+                    <p class="mb-2"><strong>Name:</strong> {{name}}</p>
+                    <a href="/events/{{id}}"> View Details </a>
+                </article> --}}
 
                 <article class="card p-3 mb-3">
-                    <img class="artist-img" src="{{eventImg}}" alt="{{name}}">
-                    <p><strong>Name:</strong> {{name}}</p>
-                    <a href="/events/{{id}}"> View Details </a>
-                    {{!-- <p><strong>Description:</strong> {{description}}</p> --}}
+                    <div class="div-card-img mb-4">
+                        <img class="img-card-img" src="{{eventImg}}" alt="{{name}}">
+                    </div>
+                    <div class="container">
+                        <p class="mb-2"><strong>Name:</strong> {{name}}</p>
+                        <a href="/events/{{id}}"> View Details </a>
+                    </div>
                 </article>
 
             </div>
