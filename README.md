@@ -1,6 +1,7 @@
 # PROJECT NAME
-
+Music Events
 ## Description 
+Ironhack module 2 project. Web application to attend musical events of all kinds, as well as manage your favorite artists using Spotify's Rest API.
 
 ## Tools
 - Javascript
